@@ -11,30 +11,82 @@ class ArticleDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Article Details')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              article.title,
-              style: Theme.of(context).textTheme.headlineSmall,
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text('Article Detail Screen'),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  article.title,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  article.body,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Consumer<ArticleProvider>(
+                  builder: (context, provider, child) {
+                    final isFavorite = provider.favoriteIds.contains(
+                      article.id,
+                    );
+                    return ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isFavorite ? Colors.red : Colors.black,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                      ),
+                      label: Text(
+                        isFavorite ? 'Remove Favorite' : 'Add Favorite',
+                      ),
+                      onPressed: () {
+                        provider.toggleFavorite(article.id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              isFavorite
+                                  ? 'Removed from favorites'
+                                  : 'Added to favorites',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            duration: const Duration(seconds: 2),
+                            backgroundColor:
+                                isFavorite ? Colors.red : Colors.green,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            Text(article.body),
-            const SizedBox(height: 16),
-            Consumer<ArticleProvider>(
-              builder: (context, provider, child) {
-                final isFavorite = provider.favoriteIds.contains(article.id);
-                return ElevatedButton.icon(
-                  icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-                  label: Text(isFavorite ? 'Remove Favorite' : 'Add Favorite'),
-                  onPressed: () => provider.toggleFavorite(article.id),
-                );
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

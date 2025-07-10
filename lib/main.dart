@@ -4,14 +4,7 @@ import 'screens/article_list_screen.dart';
 import 'providers/article_provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ArticleProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp() );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,14 +12,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Article App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ArticleProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Article App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.dark, 
+        home:  ArticleListScreen(),
       ),
-      home:  ArticleListScreen(),
     );
   }
 }
