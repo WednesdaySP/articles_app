@@ -22,7 +22,7 @@ class ArticleDetailScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Center(
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -58,7 +58,7 @@ class ArticleDetailScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-
+            
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
                       ),

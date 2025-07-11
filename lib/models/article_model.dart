@@ -11,7 +11,7 @@ class ArticleModel {
       userId: json['userId'] ?? 0, // Default to 0 if userId is not present
       id: json['id'],
       title: json['title'],
-      body: json['body'],
+      body: json['content'],
     );
   }
 }
